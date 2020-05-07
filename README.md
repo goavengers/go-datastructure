@@ -309,6 +309,18 @@ __Подмножество__ (subset) - возвращает булево зна
 
 <details>
   <summary>Скрытый код</summary>
+  
+  ```go
+  type Set struct {
+    storage 
+  }
+  
+  func (s *Set) Add(value interface{}) {
+  
+  }
+  
+  func (s *Set) Has(value interface{})
+  ```
 </details>
 
 ---
