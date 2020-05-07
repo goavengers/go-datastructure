@@ -115,6 +115,16 @@
   ```
 </details>
 
+**Примнение**
+
+<details>
+  <summary>Обра́тная по́льская запись (англ. Reverse Polish notation, RPN)</summary>
+
+  ```go
+  // todo coming soon
+  ```
+</details>
+
 **Сложность:**
 
 Алгоритм | В среднем | Худший случай
