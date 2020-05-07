@@ -35,6 +35,7 @@ func NewStack() *Stack {
 }
 
 // Adds a value onto the end of the stack
+// Добавляет элемент на вершину стека.
 func (s *Stack) Push(value interface{}) {
 	s.mt.Lock()
 	defer s.mt.Unlock()
@@ -43,6 +44,8 @@ func (s *Stack) Push(value interface{}) {
 }
 
 // Removes and returns the value at the end of the stack
+// Удаляет элемент с вершины стека и возвращает его. Если стек пустой, возвращает nil
+// Т.к.`Push` добавляет элементы в конец списка, поэтому забирать их будет также с конца.
 func (s *Stack) Pop() interface{} {
 	s.mt.Lock()
 	defer s.mt.Unlock()
@@ -57,12 +60,22 @@ func (s *Stack) Pop() interface{} {
 }
 
 // Returns the value at the end of the stack
+// Возвращает верхний элемент стека, но не удаляет его.
 func (s *Stack) Peek() interface{} {
 	s.mt.RLock()
 	defer s.mt.RUnlock()
+
+	if s.Size() == 0 {
+		return nil
+	}
+
 	return s.storage[s.Size()-1]
 }
 
+// Get count elements in stack
+// Возвращает количество элементов в стеке.
+// Зачем нам знать, сколько элементов находится в стеке, если мы все равно не имеем к ним доступа?
+// С помощью этого поля мы можем проверить, есть ли элементы на стеке или он пуст.
 func (s *Stack) Size() int {
 	return s.count
 }
