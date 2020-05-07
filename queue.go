@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"sync"
+)
 
 func UseQueue() {
 	queue := &Queue{}
@@ -15,6 +18,7 @@ func UseQueue() {
 }
 
 type Queue struct {
+	mt      sync.RWMutex
 	storage []interface{}
 }
 
@@ -23,6 +27,8 @@ type Queue struct {
 // Важно только, чтобы элементы доставались с противоположного края.
 // Сложность: O(1).
 func (q *Queue) Enqueue(value interface{}) {
+	q.mt.Lock()
+	defer q.mt.Unlock()
 	q.storage = append(q.storage, value)
 }
 
@@ -31,6 +37,9 @@ func (q *Queue) Enqueue(value interface{}) {
 // Поскольку мы вставляем элементы в конец списка, убирать мы их будем с начала.
 // Сложность: O(1).
 func (q *Queue) Dequeue() interface{} {
+	q.mt.Lock()
+	defer q.mt.Unlock()
+
 	if q.isEmpty() {
 		return nil
 	}
@@ -45,6 +54,9 @@ func (q *Queue) Dequeue() interface{} {
 // Очередь остается без изменений. Если очередь пустая, возврщается nil
 // Сложность: O(1)
 func (q *Queue) Peek() interface{} {
+	q.mt.RLock()
+	defer q.mt.RUnlock()
+
 	if q.isEmpty() {
 		return nil
 	}
