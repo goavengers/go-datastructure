@@ -47,15 +47,15 @@
 
   ```go
   type Stack struct {
-  	mt      sync.RWMutex
-  	storage map[int]interface{}
-  	count   int
+  	mt         sync.RWMutex
+  	collection map[int]interface{}
+  	count      int
   }
   
   func NewStack() *Stack {
   	return &Stack{
-  		storage: map[int]interface{}{},
-  		count:   0,
+  		collection: map[int]interface{}{},
+  		count:      0,
   	}
   }
   
@@ -65,7 +65,7 @@
   func (s *Stack) Push(value interface{}) {
   	s.mt.Lock()
   	defer s.mt.Unlock()
-  	s.storage[s.count] = value
+  	s.collection[s.count] = value
   	s.Inc()
   }
   
@@ -81,8 +81,8 @@
   	}
   
   	s.Dec()
-  	result := s.storage[s.Size()]
-  	delete(s.storage, s.Size())
+  	result := s.collection[s.Size()]
+  	delete(s.collection, s.Size())
   	return result
   }
   
@@ -97,7 +97,7 @@
   		return nil
   	}
   
-  	return s.storage[s.Size()-1]
+  	return s.collection[s.Size()-1]
   }
   
   // Get count elements in stack
@@ -160,8 +160,8 @@ Enqueue означает вставить элемент в конец очер�
 
   ```go
   type Queue struct {
-  	mt      sync.RWMutex
-  	storage []interface{}
+  	mt         sync.RWMutex
+  	collection []interface{}
   }
   
   // Добавляет элемент в очередь.
@@ -171,7 +171,7 @@ Enqueue означает вставить элемент в конец очер�
   func (q *Queue) Enqueue(value interface{}) {
   	q.mt.Lock()
   	defer q.mt.Unlock()
-  	q.storage = append(q.storage, value)
+  	q.collection = append(q.collection, value)
   }
   
   // Удаляет первый помещенный элемент из очереди и возвращает его.
@@ -186,8 +186,8 @@ Enqueue означает вставить элемент в конец очер�
   		return nil
   	}
   
-  	val := q.storage[0]
-  	q.storage = q.storage[1:]
+  	val := q.collection[0]
+  	q.collection = q.collection[1:]
   
   	return val
   }
@@ -203,21 +203,21 @@ Enqueue означает вставить элемент в конец очер�
   		return nil
   	}
   
-  	return q.storage[0]
+  	return q.collection[0]
   }
   
   // Возвращает количество элементов в очереди или 0, если очередь пустая.
   // Сложность: O(1).
   func (q *Queue) Count() int {
-  	return len(q.storage)
+  	return len(q.collection)
   }
   
   func (q *Queue) isEmpty() bool {
   	return q.Count() == 0
   }
   
-  func (q *Queue) Collection() []interface{} {
-  	return q.storage
+  func (q *Queue) Collections() []interface{} {
+  	return q.collection
   }
   ```
 </details>
@@ -319,7 +319,7 @@ __Подмножество__ (subset) - возвращает булево зна
   	return s.collection
   }
   
-  // Поведение: Добавляет элементы в множество. 
+  // Поведение: Добавляет элементы в множество.
   // Если элемент уже присутствует в множестве, возвращается false, иначе true.
   // Сложность: O(n)
   func (s *Set) Add(value interface{}) bool {
@@ -390,7 +390,7 @@ __Подмножество__ (subset) - возвращает булево зна
   			intersection.Add(v)
   		}
   	}
-  	
+  
   	return intersection
   }
   
@@ -411,7 +411,7 @@ __Подмножество__ (subset) - возвращает булево зна
   // Поведение: Возвращает true, если второе множество является подмножеством первого, в противном случае возвращает false.
   // Сложность: O(m·n), где m и n — количество элементов переданного и текущего множеств соответственно.
   func (s *Set) Subset(set *Set) bool {
-  	return len(s.Difference(set).Collections()) == 0
+  	return s.Difference(set).Size() == 0
   }
   ```
 </details>
