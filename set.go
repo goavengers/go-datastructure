@@ -127,5 +127,9 @@ func (s *Set) Difference(set *Set) *Set {
 // Поведение: Возвращает true, если второе множество является подмножеством первого, в противном случае возвращает false.
 // Сложность: O(m·n), где m и n — количество элементов переданного и текущего множеств соответственно.
 func (s *Set) Subset(set *Set) bool {
+	if s.Size() < set.Size() {
+		return false
+	}
+
 	return s.Difference(set).Size() == 0
 }
