@@ -25,6 +25,12 @@ func UseSet() {
 	fmt.Println(setA.Collections())
 
 	fmt.Println(setA.Contains(10))
+
+	setA.Add(10)
+	setA.Add(60)
+	fmt.Println(setA.Collections())
+	fmt.Println(setB.Collections())
+	fmt.Println(setB.SymmetricDifference(setA))
 }
 
 type Set struct {
@@ -132,4 +138,13 @@ func (s *Set) Subset(set *Set) bool {
 	}
 
 	return s.Difference(set).Size() == 0
+}
+
+// Поведение: Возвращает множество, являющееся симметрической разностью текущего с указанным.
+// Сложность: O(m·n), где m и n — количество элементов переданного и текущего множеств соответственно.
+func (s *Set) SymmetricDifference(set *Set) *Set {
+	a := s.Difference(set)
+	b := set.Difference(s)
+
+	return a.Union(b)
 }
