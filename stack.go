@@ -22,15 +22,15 @@ func UseStack() {
 }
 
 type Stack struct {
-	mt      sync.RWMutex
-	storage map[int]interface{}
-	count   int
+	mt         sync.RWMutex
+	collection map[int]interface{}
+	count      int
 }
 
 func NewStack() *Stack {
 	return &Stack{
-		storage: map[int]interface{}{},
-		count:   0,
+		collection: map[int]interface{}{},
+		count:      0,
 	}
 }
 
@@ -40,7 +40,7 @@ func NewStack() *Stack {
 func (s *Stack) Push(value interface{}) {
 	s.mt.Lock()
 	defer s.mt.Unlock()
-	s.storage[s.count] = value
+	s.collection[s.count] = value
 	s.Inc()
 }
 
@@ -56,8 +56,8 @@ func (s *Stack) Pop() interface{} {
 	}
 
 	s.Dec()
-	result := s.storage[s.Size()]
-	delete(s.storage, s.Size())
+	result := s.collection[s.Size()]
+	delete(s.collection, s.Size())
 	return result
 }
 
@@ -72,7 +72,7 @@ func (s *Stack) Peek() interface{} {
 		return nil
 	}
 
-	return s.storage[s.Size()-1]
+	return s.collection[s.Size()-1]
 }
 
 // Get count elements in stack
