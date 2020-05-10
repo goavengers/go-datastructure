@@ -1,5 +1,5 @@
 <div align="center">
-  <img width="150" height="250" src="https://github.com/goavengers/go-datastructure/blob/master/img/go-struct-2x.png">
+  <img width="494" height="344" src="https://github.com/goavengers/go-datastructure/blob/master/img/go-struct-2x.png">
   <h1>Структуры данных: 10 типов структур данных, которые необходимо знать каждому</h1>
   <h5>Вместе мы разберемся!</h5>
 </div>
