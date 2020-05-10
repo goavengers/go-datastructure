@@ -626,6 +626,126 @@ moddle.next = last
   ```
 </details>
 
+С помощью связанных списков можно можно создавать такие структуры данных, как [Стеки (Stack)](#stack) и [Очереди (Queue)](#queue), которые мы уже реализовывали выше, давайте попробуем реализовать их с помощью связанных списков.
+
+Для этого, нам понадобится немного модифицировать существующий код связанных списков и добавить к ним несколько методов (которые сильно напоминают методы из двухсвязанных списокв (Double Linked List)).
+
+```go
+// данный метод добавляет элемент перед первым элементом в списке
+func (l *LinkedList) PreAdd(value interface{}) {
+	newNode := &Node{
+		value: value,
+		next:  l.head,
+	}
+
+	l.head = newNode
+
+	if l.tail == nil {
+		l.tail = newNode
+	}
+
+	l.count++
+}
+
+// слудующие два метода удаляют с начала и конца соответственно названиям метода
+func (l *LinkedList) RemoveHead() (bool, *Node) {
+	if l.head == nil {
+		return false, nil
+	}
+
+	tmpHead := l.head
+
+	if l.head.next != nil {
+		l.head = l.head.next
+	} else {
+		l.head = nil
+		l.head = nil
+	}
+
+	l.count--
+	return true, tmpHead
+}
+
+func (l *LinkedList) RemoveTail() (bool, *Node) {
+	tmpTail := l.tail
+
+	if l.head.next == nil {
+		// There is only one node in linked list.
+
+		l.head = nil
+		l.tail = nil
+		l.count--
+		return true, tmpTail
+	}
+
+	// If there are many nodes in linked list...
+	// Rewind to the last node and delete "next" link for the node before the last one.
+
+	currentNode := l.head
+	for currentNode.next != nil {
+		if currentNode.next.next == nil {
+			currentNode.next = nil
+		} else {
+			currentNode = currentNode.next
+		}
+	}
+
+	l.count--
+	l.tail = currentNode
+	return true, tmpTail
+}
+```
+
+Теперь, когда мы добавили необходимые методы, мы можем реализовывать структуру данных Стек с помощью связанных списков:
+
+<details>
+  <summary>Реализация структуры Стек с помощью связанного списка</summary>
+  
+  ```go
+  type LinkedStack struct {
+  	linkedList LinkedList
+  }
+  
+  func NewLinkedStack() LinkedStack {
+  	return LinkedStack{linkedList: LinkedList {
+  		count: 0,
+  		head:  nil,
+  		tail:  nil,
+  	}}
+  }
+  
+  func (ls *LinkedStack) Peek() interface{} {
+  	if ls.IsEmpty() {
+  		return nil
+  	}
+  
+  	return ls.linkedList.head.value
+  }
+  
+  func (ls *LinkedStack) Push(value interface{}) {
+  	ls.linkedList.PreAdd(value)
+  }
+  
+  func (ls *LinkedStack) Pop() interface{} {
+  	if ok, removed := ls.linkedList.RemoveHead(); ok {
+  		return removed.value
+  	}
+  
+  	return nil
+  }
+  
+  func (ls *LinkedStack) IsEmpty() bool {
+  	return ls.linkedList.head == nil
+  }
+  
+  func (ls *LinkedStack) Size() int {
+  	return ls.linkedList.Size()
+  }
+  ```
+</details>
+
+
+
 **Вопросы о стеке, часто задаваемые на собеседованиях:**
 
 - Обратите связный список
