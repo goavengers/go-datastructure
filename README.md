@@ -19,7 +19,8 @@
 6. [Связанные списки (Linked Lists)](#linked_lists)
     1. [Реализация](#linked_lists_implementation)
     2. [Сложность](#linked_lists_complexity)
-    3. [Вопросы о стеке, часто задаваемые на собеседованиях](#linked_lists_interview)
+    3. [Реализация стека и очереди на основе связанных списков](#linked_list_stack_queue)
+    4. [Вопросы о стеке, часто задаваемые на собеседованиях](#linked_lists_interview)
 
 Структуры данных играют важную роль в процессе разработки ПО, а еще по ним часто задают вопросы на собеседованиях для разработчиков. Хорошая новость в том, что по сути они представляют собой всего лишь специальные форматы для организации и хранения данных.
 
@@ -626,6 +627,8 @@ moddle.next = last
   ```
 </details>
 
+<a name="linked_list_stack_queue"></a> **Реализация стека и очереди на основе связанных списков**
+
 С помощью связанных списков можно можно создавать такие структуры данных, как [Стеки (Stack)](#stack) и [Очереди (Queue)](#queue), которые мы уже реализовывали выше, давайте попробуем реализовать их с помощью связанных списков.
 
 Для этого, нам понадобится немного модифицировать существующий код связанных списков и добавить к ним несколько методов (которые сильно напоминают методы из двухсвязанных списокв (Double Linked List)).
@@ -744,7 +747,44 @@ func (l *LinkedList) RemoveTail() (bool, *Node) {
   ```
 </details>
 
+Таким же образом реализуем структуру очередь:
 
+<details>
+  <summary>Реализация структуры Очередь с помощью связанного списка</summary>
+  
+  ```go
+  type LinkedQueue struct {
+  	linkedList LinkedList
+  }
+  
+  func (lq *LinkedQueue) Enqueue(value interface{}) {
+  	lq.linkedList.Add(value)
+  }
+  
+  func (lq *LinkedQueue) Dequeue() interface{} {
+  	if ok, removed := lq.linkedList.RemoveHead(); ok {
+  		return removed.value
+  	}
+  
+  	return nil
+  }
+  
+  func (lq *LinkedQueue) Peek() interface{} {
+  	if lq.linkedList.head == nil {
+  		return nil
+  	}
+  
+  	return lq.linkedList.head.value
+  }
+  
+  func (lq *LinkedQueue) ToString() {
+  	lq.linkedList.PrintNodes()
+  }
+  ```
+</details>
+
+Вот атк вот легко реализовывать структуры данных поверх другой структуры данных. 
+Сравните полученный код с "нативной" реализацией и вы увидите, что код стал короче и компактнее, а так же то, что код выглядит более унифицированным.
 
 **Вопросы о стеке, часто задаваемые на собеседованиях:**
 

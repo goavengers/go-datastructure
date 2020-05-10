@@ -6,4 +6,5 @@ func main() {
 	// UseSet()
 	// UseLinkedList()
 	// UseLinkedStack()
+	// UseLinkedQueue()
 }
