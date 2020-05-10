@@ -758,7 +758,7 @@ func (l *LinkedList) RemoveTail() (bool, *Node) {
 Таким же образом реализуем структуру очередь:
 
 <details>
-  <summary>Реализация структуры __Очередь__ с помощью связанного списка</summary>
+	<summary>Реализация структуры <b>Очередь</b> с помощью связанного списка</summary>
   
   ```go
   type LinkedQueue struct {
