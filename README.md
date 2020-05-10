@@ -519,13 +519,13 @@ first := &Node{3}
 moddle := &Node{5}
 last := &Node{7}
 
-zero.next = moddle
+first.next = middle
 
 // +-----+------+    +-----+------+
 // |  3  |  *---+--->|  5  | null +
 // +-----+------+    +-----+------+
 
-moddle.next = last
+middle.next = last
 
 // +-----+------+    +-----+------+   +-----+------+
 // |  3  |  *---+--->|  5  |  *---+-->|  7  | null +
