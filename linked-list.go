@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func UseLinkedList() {
 	linkedList := &LinkedList{}
@@ -18,6 +20,14 @@ func UseLinkedList() {
 	if index, exist := linkedList.Contains(2); exist {
 		fmt.Println(fmt.Sprintf("Exist index %d", index))
 	}
+
+	linkedList.RemoveHead()
+	linkedList.PrintNodes()
+	linkedList.RemoveTail()
+	linkedList.PrintNodes()
+	linkedList.Add(3)
+	linkedList.Add(4)
+	linkedList.PrintNodes()
 }
 
 type LinkedList struct {
@@ -112,6 +122,51 @@ func (l *LinkedList) Contains(element interface{}) (int, bool) {
 
 func (l *LinkedList) Size() int {
 	return l.count
+}
+
+func (l *LinkedList) RemoveHead() (bool, *Node) {
+	if l.head == nil {
+		return false, nil
+	}
+
+	tmpHead := l.head
+
+	if l.head.next != nil {
+		l.head = l.head.next
+	} else {
+		l.head = nil
+		l.head = nil
+	}
+
+	return true, tmpHead
+}
+
+func (l *LinkedList) RemoveTail() (bool, *Node) {
+	tmpTail := l.tail
+
+	if l.head.next == nil {
+		// There is only one node in linked list.
+
+		l.head = nil
+		l.tail = nil
+
+		return true, tmpTail
+	}
+
+	// If there are many nodes in linked list...
+	// Rewind to the last node and delete "next" link for the node before the last one.
+
+	currentNode := l.head
+	for currentNode.next != nil {
+		if currentNode.next.next == nil {
+			currentNode.next = nil
+		} else {
+			currentNode = currentNode.next
+		}
+	}
+
+	l.tail = currentNode
+	return true, tmpTail
 }
 
 // help method
