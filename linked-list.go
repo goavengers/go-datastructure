@@ -27,6 +27,7 @@ func UseLinkedList() {
 	linkedList.PrintNodes()
 	linkedList.Add(3)
 	linkedList.Add(4)
+	linkedList.PreAdd(1)
 	linkedList.PrintNodes()
 }
 
@@ -122,6 +123,19 @@ func (l *LinkedList) Contains(element interface{}) (int, bool) {
 
 func (l *LinkedList) Size() int {
 	return l.count
+}
+
+func (l *LinkedList) PreAdd(value interface{}) {
+	newNode := &Node{
+		value: value,
+		next:  l.head,
+	}
+
+	l.head = newNode
+
+	if l.tail == nil {
+		l.tail = newNode
+	}
 }
 
 func (l *LinkedList) RemoveHead() (bool, *Node) {
