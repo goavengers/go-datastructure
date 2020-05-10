@@ -29,6 +29,7 @@ func UseLinkedList() {
 	linkedList.Add(4)
 	linkedList.PreAdd(1)
 	linkedList.PrintNodes()
+	fmt.Println(linkedList.Size())
 }
 
 type LinkedList struct {
@@ -136,6 +137,8 @@ func (l *LinkedList) PreAdd(value interface{}) {
 	if l.tail == nil {
 		l.tail = newNode
 	}
+
+	l.count++
 }
 
 func (l *LinkedList) RemoveHead() (bool, *Node) {
@@ -152,6 +155,7 @@ func (l *LinkedList) RemoveHead() (bool, *Node) {
 		l.head = nil
 	}
 
+	l.count--
 	return true, tmpHead
 }
 
@@ -163,7 +167,7 @@ func (l *LinkedList) RemoveTail() (bool, *Node) {
 
 		l.head = nil
 		l.tail = nil
-
+		l.count--
 		return true, tmpTail
 	}
 
@@ -179,6 +183,7 @@ func (l *LinkedList) RemoveTail() (bool, *Node) {
 		}
 	}
 
+	l.count--
 	l.tail = currentNode
 	return true, tmpTail
 }
